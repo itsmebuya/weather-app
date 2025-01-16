@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import getAllCities from './utils/get-all-cities.js';
-import countriesData from './data.jsx'
+import getDayAndNightForecast from './utils/get-day-and-night-forecast.js';
 import Sun from "./components/Sun.jsx"
 import Moon from "./components/Moon.jsx"
 import Right from "./components/Pine_Right.jsx"
 import Left from "./components/Pine_Left.jsx"
 import Search from './components/Search.jsx';
 import DarkRight from './components/Dark-Right.jsx';
-import { use } from 'react';
+import LightLeft from './components/Light-Left.jsx';
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
@@ -16,6 +16,7 @@ function App() {
   const [filteredData, setFilteredData] = useState([]);
   const [weatherData, setWeatherData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [condition, setCondition] = useState('')
 
   const getCountries = async () => {
     try {
@@ -37,8 +38,8 @@ function App() {
     setIsLoading(true)
     try {
       const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${selectedCity}`)
-
       const result = await response.json();
+
       setWeatherData(result);
     } catch (error) {
       console.log(error);
@@ -48,14 +49,16 @@ function App() {
   };
 
   const handleClickCity = (city) => {
-
+    setSelectedCity(city)
+    setSearchValue('');
+    setFilteredData([]);
   }
 
   const onChange = (event) => {
     setSearchValue(event.target.value);
     const filtered = allCities.filter((el) => el.toLowerCase().startsWith(searchValue.toLowerCase())).slice(0, 5);
     console.log(filtered);
-    
+
 
     setFilteredData(filtered)
   }
@@ -78,8 +81,8 @@ function App() {
         <div className='flex justify-end items-end w-1/2 h-screen bg-[#0F131E] '>
           <Moon />
         </div>
-        <Search onChange={onChange} value={searchValue} filtered={filteredData} />
-       
+        <Search onChange={onChange} value={searchValue} filtered={filteredData} handleClickCity={handleClickCity}/>
+
 
         <div className='flex justify-center items-center absolute w-full h-screen'>
 
@@ -89,16 +92,10 @@ function App() {
                 <div className='rounded-full w-[940px] h-[940px] border border-white absolute z-1 flex justify-center items-center'>
                   <div className='rounded-full w-[1340px] h-[1340px] border border-white absolute z-1 flex justify-center items-center'>
                     <div className='rounded-full w-[1740px] h-[1740px] border border-white absolute z-1 flex justify-center items-center'>
-                      <div className='flex justify-around'>
-                        <DarkRight/>
-                        <div className='flex gap-4'>
-                          <Left />
-                          <Right />
-                        </div>
-                        {/* <LightLeft/> */}
+                      <div className='flex gap-4'>
+                        <Left />
+                        <Right />
                       </div>
-
-
                     </div>
                   </div>
                 </div>
@@ -107,7 +104,8 @@ function App() {
           </div>
 
         </div>
-        <DarkRight />
+        <LightLeft city={selectedCity} condition={condition} />
+        <DarkRight city={selectedCity} condition={condition} />
       </div>
     </>
   )
