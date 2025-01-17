@@ -1,7 +1,6 @@
-const getDayAndNightForecast = (countries) => {
-    const dayAndNight = countries.flatMap((country) => 
-    country.cities.map((city) => `${city}, ${country.country}`));
-
-    return dayAndNight;
+const getDayAndNightForecast = (weatherData) => {
+    const data = weatherData.forecast?.forecastday?.[0]?.day
+    
+    return data
 }
 export default getDayAndNightForecast;

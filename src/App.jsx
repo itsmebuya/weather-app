@@ -15,8 +15,9 @@ function App() {
   const [selectedCity, setSelectedCity] = useState("Ulaanbaatar, Mongolia");
   const [filteredData, setFilteredData] = useState([]);
   const [weatherData, setWeatherData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [condition, setCondition] = useState('')
+  const [isLoading, setIsLoading] = useState(true);
+  const [condition, setCondition] = useState('');
+  const [tempData, setTempData] = useState({})
 
   const getCountries = async () => {
     try {
@@ -27,7 +28,7 @@ function App() {
       const countries = result.data;
       const cities = getAllCities(countries)
       setAllCities(cities)
-
+      setSearchValue("")
     } catch (error) {
       console.log(error);
     }
@@ -35,42 +36,50 @@ function App() {
 
   const weatherApiKey = '2f2b2027f965496fbb375244251501'
   const getWeatherData = async () => {
-    setIsLoading(true)
+
     try {
+
       const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${selectedCity}`)
       const result = await response.json();
 
+      const currentData = getDayAndNightForecast(result)
+
+      setTempData({ day: currentData.maxtemp_c, night: currentData.mintemp_c, dayCondition: currentData.condition.text })
+
       setWeatherData(result);
-    } catch (error) {
-      console.log(error);
-    } finally {
       setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      console.log(error);
     }
   };
 
   const handleClickCity = (city) => {
     setSelectedCity(city)
-    setSearchValue('');
+
     setFilteredData([]);
   }
 
   const onChange = (event) => {
     setSearchValue(event.target.value);
-    const filtered = allCities.filter((el) => el.toLowerCase().startsWith(searchValue.toLowerCase())).slice(0, 5);
+    console.log(event.target.value);
+    
+    const filtered = allCities.filter((el) => el.toLowerCase().startsWith(event.target.value.toLowerCase())).slice(0, 5);
     console.log(filtered);
-
+    
 
     setFilteredData(filtered)
   }
 
   useEffect(() => {
     getCountries();
-    getWeatherData();
   }, []);
 
   useEffect(() => {
     getWeatherData();
   }, [selectedCity])
+
+
 
   return (
     <>
@@ -81,7 +90,7 @@ function App() {
         <div className='flex justify-end items-end w-1/2 h-screen bg-[#0F131E] '>
           <Moon />
         </div>
-        <Search onChange={onChange} value={searchValue} filtered={filteredData} handleClickCity={handleClickCity}/>
+        <Search onChange={onChange} value={searchValue} filtered={filteredData} handleClickCity={handleClickCity} />
 
 
         <div className='flex justify-center items-center absolute w-full h-screen'>
@@ -104,8 +113,8 @@ function App() {
           </div>
 
         </div>
-        <LightLeft city={selectedCity} condition={condition} />
-        <DarkRight city={selectedCity} condition={condition} />
+        <LightLeft city={selectedCity} condition={tempData.dayCondition} data={tempData.day} isLoading={isLoading} />
+        <DarkRight city={selectedCity} condition={tempData.dayCondition} data={tempData.night} isLoading={isLoading} />
       </div>
     </>
   )

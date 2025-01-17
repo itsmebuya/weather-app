@@ -1,7 +1,32 @@
 import Img from '../assets/sun.png'
+import Snow from '../assets/day-snowy.png'
+import Rain from '../assets/day-rainy.png'
+import Cloud from "../assets/day-cloud.png"
+import Thunder from "../assets/day-thunder.png"
+import Windy from "../assets/day-windy.png"
 const LightLeft = (props) => {
-    const { city, condition } = props;
+    const { city, condition, data, isLoading } = props;
 
+    const conditionState = () => {
+        switch (true) {
+            case condition.includes("snow"):
+                return Snow
+            case condition.includes("rain"):
+                return Rain
+            case condition.includes("cloud"):
+                return Cloud
+            case condition.includes("thunder"):
+                return Thunder
+            case condition.includes("windy"):
+                return Windy
+            default: return Img
+        }
+    }
+
+
+    if (isLoading) {
+        return <div>loading</div>
+    }
 
     return (
 
@@ -16,10 +41,11 @@ const LightLeft = (props) => {
                     <circle cx="16" cy="13" r="2" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </div>
-            <img src={Img} alt="Sun" className='my-[50px]' />
+
+            <img src={conditionState()} alt="Sun" className='mt-[50px]' />
             <div className="flex flex-col">
-                <p></p>
-                <p className='text-[#FF8E27] text-2xl font-extrabold'>{condition} sunny</p>
+                <p className='text-[110px] text-extrabold '>{data}°</p>
+                <p className='text-[#FF8E27] text-2xl font-extrabold'>{condition}</p>
             </div>
             <div className='flex justify-between items-center mt-[30px]'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
