@@ -18,23 +18,27 @@ const Search = (props) => {
           />
         </div>
 
-        <div className="flex flex-col bg-white rounded-[24px] py-4 px-6">
-          {filtered?.map((el) => {
-            return (
-              <div
-                key={el}
-                className="flex items-center gap-3 cursor-pointer"
-                onClick={() => handleClickCity(el)}
-              >
-                <Location />
+        {filtered?.length ? (
+          <div className="flex flex-col bg-white rounded-[24px] py-4 px-6">
+            {filtered?.map((el) => {
+              return (
+                <div
+                  key={el}
+                  className="flex items-center gap-3 cursor-pointer"
+                  onClick={() => handleClickCity(el)}
+                >
+                  <Location color={"#9CA3AF"} />
 
-                <p key={el} className="text-black font-bold text-[28px]">
-                  {el}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+                  <p key={el} className="text-black font-bold text-[28px]">
+                    {el}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        ):<> </>
+        }
+
       </div>
     </>
   );

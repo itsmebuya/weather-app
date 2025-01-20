@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import getAllCities from "./utils/get-all-cities.js";
 import getDayAndNightForecast from "./utils/get-day-and-night-forecast.js";
 import Sun from "./assets/svg/Sun.jsx";
-import Moon from "./components/Moon.jsx";
+import Moon from "./assets/svg/Moon.jsx";
 import Search from "./components/Search.jsx";
 import DarkRight from "./components/Dark-Right.jsx";
 import LightLeft from "./components/Light-Left.jsx";
