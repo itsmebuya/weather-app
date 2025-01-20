@@ -59,5 +59,5 @@ const Sun = (props) => (
       </filter>
     </defs>
   </svg>
-)
-export default Sun
+);
+export default Sun;

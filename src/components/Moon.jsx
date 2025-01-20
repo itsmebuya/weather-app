@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 const Moon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -32,5 +32,5 @@ const Moon = (props) => (
       </radialGradient>
     </defs>
   </svg>
-)
-export default Moon
+);
+export default Moon;
