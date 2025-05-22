@@ -1,4 +1,4 @@
-import Img from "../assets/Moon.png";
+import Img from "../assets/moon.png";
 import Snow from "../assets/night-snowy.png";
 import Rain from "../assets/night-rainy.png";
 import Cloud from "../assets/night-cloud.png";
