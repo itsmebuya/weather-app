@@ -30,7 +30,7 @@ const LightLeft = (props) => {
   };
 
   if (isLoading) {
-    return <div>loading</div>;
+    return <div>loading...</div>;
   }
 
   return (
