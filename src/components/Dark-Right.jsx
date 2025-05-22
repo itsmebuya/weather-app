@@ -1,4 +1,4 @@
-import Img from "../assets/moon.png";
+import Img from "../assets/moon.png"
 import Snow from "../assets/night-snowy.png";
 import Rain from "../assets/night-rainy.png";
 import Cloud from "../assets/night-cloud.png";
@@ -30,7 +30,7 @@ const DarkRight = (props) => {
   };
 
   if (isLoading) {
-    return <div>loading</div>;
+    return <div>loading...</div>;
   }
 
   return (
